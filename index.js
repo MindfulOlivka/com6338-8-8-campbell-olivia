@@ -23,7 +23,7 @@ form.onsubmit = function(e) {
   var URL = "https://api.openweathermap.org/data/2.5/weather?q="
   var city = this.search.value.trim()         //extract the value
   var fullUrl = URL + city + apiKey
-  if (!city) return                  //prevent making api request without city name
+  if (!city) return                  // prevent making api request without city name
   form.search.value = ""              // reset the value of the search
 
   fetch(fullUrl)
@@ -46,6 +46,8 @@ function broadcast(data) {                       // clear existing content
     city.textContent = data.name + ', ' + data.sys.country
     weather.appendChild(city)                   // add city name to the weather display
 
+ 
+    var br = document.createElement('br')
     var map = document.createElement('a')        // create anchor for a map link
     var lat = data.coord.lat
     var lon = data.coord.lon
@@ -53,13 +55,11 @@ function broadcast(data) {                       // clear existing content
     map.target = '_BLANK'                       // open new browser tab 
     map.textContent = 'Click to view map'
     weather.appendChild(map)
-  
 
-  var img = document.createElement('img')
-  img.setAttribute("src","https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
-  )
-  weather.appendChild(img)
-
+    var img = document.createElement('img')
+    img.setAttribute("src","https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png"
+    )
+    weather.appendChild(img)
 
   var currentWeather = document.createElement('p')
   currentWeather.textContent = data.weather[0].description
@@ -78,96 +78,18 @@ function broadcast(data) {                       // clear existing content
   feelsLike.textContent = 'Feels like:  ' + feelsLikeNumber + '° F'
   weather.appendChild(feelsLike)
   
+
   var date = new Date(data.dt * 1000)
   var timeString = date.toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit'
   })
 
+  weather.appendChild(br)                  // line break
+
   var updated = document.createElement('p')
   updated.textContent = 'Last Updated:  ' + timeString
   weather.appendChild(updated)
+  
   }
   
-  
-
-
-
-
-/*
-var queryString = "?units=imperial&appid=yourapikeyhere&q=" + userQuery
-var fetchURL = weatherUrl + queryString
-var date = new Date(/* milliseconds go here *)
-var timeString = date.toLocaleTimeString("en-US", {
-  hour: "numeric",
-  minute: "2-digit",
-}) */
-
-/*form.onsubmit = function(e) {
-    e.preventDefault()
-    var city = this.search.value.trim()
-    var fullURL = URL + city + "&units=imperial&appid=" + APIkey
-    if ((!city) ||  (weatherSearch.value = '')) {
-        city = ''
-        weatherSearch.value = ''
-        div.innerHTML = ''
-    fetch(fullURL)
-    .then(function(res) {
-        if (res.status !== 200) throw new Error('Location not Found')
-        return res.json()
-      })
-        .then(renderData)
-
-        .catch(function (err) {
-            div.innerHTML = err.message
-        })
-    }} */
-
-   
-/*
-      .then(function(city) {     // .then(getInfo)
-        div.innerHTML = ""
-        var h2 = document.createElement('h2')
-        h2.textContent = div.name.toUpperCase
-        div.appendChild(h2)
-
-        var img = document.createElement('img');
-        var iconCode = data.weather[0].icon
-        var iconURL = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png"
-        img src = iconURL
-        div.appendChild(img);
-      })
-}
-
-
-
-testBtn.onclick = function() {
-    fetch('URL')
-    .then(function(res) {
-        return res.json()
-    })
-     .then(getInfo)
-}
-
-     function getInfo(data) {
-     for(var user of data.results) {
-        var userDiv = document.createElement('div')
-        console.log(user.name)
-
-        var img = document.createElement('img')
-        img.style = 'float: center;'
-        img src = user.picture.small
-        img.alt = 
-        userDiv.appendChild(img)
-
-        var h3 = document.createElement('h3')
-        h3.textContent = username
-        userDiv.appendChild(h3)
-
-        var cell = document.createElement('a')
-        cell.href = 'tel:' + user.phone
-        cell.textContent = user.phone
-        userDiv.appendChild(cell)
-     }
-    }
-*/
